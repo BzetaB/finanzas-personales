@@ -16,6 +16,5 @@ public class ExpenseCategory {
     private Integer id;
     @Column(unique = true, nullable = false)
     private String name;
-    private Boolean isPermanent;
-    private Double amountPermanent;
+    private Boolean isFixed;
 }
