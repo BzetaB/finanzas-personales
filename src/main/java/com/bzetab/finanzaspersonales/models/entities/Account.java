@@ -1,11 +1,14 @@
 package com.bzetab.finanzaspersonales.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -30,4 +33,8 @@ public class Account {
     private LocalDateTime dateCreated;
     @UpdateTimestamp
     private LocalDateTime dateModified;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @JsonManagedReference("account_owner")
+    private Set<AccountDetail> owner = new HashSet<>();
 }
