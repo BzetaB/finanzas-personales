@@ -24,4 +24,9 @@ public class AccountServiceImpl implements AccountService {
         Account saved = accountRepository.save(account);
         return accountMapper.toAccountDto(saved);
     }
+
+    @Override
+    public Account findByName(String name) {
+        return accountRepository.findByName(name);
+    }
 }
