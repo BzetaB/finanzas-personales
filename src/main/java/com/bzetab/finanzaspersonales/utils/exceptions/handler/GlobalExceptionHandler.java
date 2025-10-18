@@ -2,6 +2,7 @@ package com.bzetab.finanzaspersonales.utils.exceptions.handler;
 
 import com.bzetab.finanzaspersonales.utils.exceptions.model.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -31,5 +32,28 @@ public class GlobalExceptionHandler {
                         .details(errors)
                         .path(request.getRequestURI())
                         .build());
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ErrorResponse> handleConstraintViolationException(ConstraintViolationException exception,
+                                                                            HttpServletRequest request){
+        List<String> error = exception.getConstraintViolations().stream()
+                .map(violation -> {
+                    String fieldPath = violation.getPropertyPath().toString();
+                    String field = fieldPath.contains(".")
+                            ? fieldPath.substring(fieldPath.lastIndexOf('.') + 1)
+                            : fieldPath;
+                    String message = violation.getMessage();
+                    return field + ": " + message;
+                })
+                .toList();
+
+        return ResponseEntity.badRequest().body(ErrorResponse.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .error("Validation failed")
+                .details(error)
+                .path(request.getRequestURI())
+                .build());
     }
 }
