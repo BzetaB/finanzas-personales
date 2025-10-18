@@ -18,4 +18,9 @@ public class IncomeSourceServiceImpl implements IncomeSourceService {
     public IncomeSource createIncomeSource(IncomeSource incomeSource) {
         return incomeSourceRepository.save(incomeSource);
     }
+
+    @Override
+    public IncomeSource findByName(String name) {
+        return incomeSourceRepository.findByName(name);
+    }
 }
