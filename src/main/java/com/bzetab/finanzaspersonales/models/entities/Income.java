@@ -2,8 +2,9 @@ package com.bzetab.finanzaspersonales.models.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -16,7 +17,8 @@ public class Income {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Date date;
+    @UpdateTimestamp
+    private LocalDateTime date;
     private Double amount;
     private String description;
 
