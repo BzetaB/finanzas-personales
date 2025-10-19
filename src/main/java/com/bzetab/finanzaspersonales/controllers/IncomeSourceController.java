@@ -32,7 +32,7 @@ public class IncomeSourceController {
     public ResponseEntity<SuccessResponse> findIncomeSourceByName(@NotBlank(message = "Name is required") @RequestParam("name") String name ){
         return ResponseEntity.ok(
                 SuccessResponse.builder()
-                        .message("Account found successfully")
+                        .message("Income source found successfully")
                         .status(HttpStatus.OK.value())
                         .data(incomeSourceService.findByName(name))
                         .build());
