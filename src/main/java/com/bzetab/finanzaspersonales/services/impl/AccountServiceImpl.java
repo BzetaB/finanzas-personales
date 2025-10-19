@@ -5,6 +5,7 @@ import com.bzetab.finanzaspersonales.models.entities.Account;
 import com.bzetab.finanzaspersonales.models.mappers.AccountMapper;
 import com.bzetab.finanzaspersonales.repositories.AccountRepository;
 import com.bzetab.finanzaspersonales.services.AccountService;
+import com.bzetab.finanzaspersonales.utils.exceptions.custom.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,6 +28,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account findByName(String name) {
-        return accountRepository.findByName(name);
+        return accountRepository.findByName(name).orElseThrow(() ->
+                new ResourceNotFoundException("Account not found with name: " + name));
     }
 }
