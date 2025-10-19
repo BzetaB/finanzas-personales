@@ -1,5 +1,6 @@
 package com.bzetab.finanzaspersonales.utils.exceptions.handler;
 
+import com.bzetab.finanzaspersonales.utils.exceptions.custom.ResourceNotFoundException;
 import com.bzetab.finanzaspersonales.utils.exceptions.model.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
@@ -55,5 +56,17 @@ public class GlobalExceptionHandler {
                 .details(error)
                 .path(request.getRequestURI())
                 .build());
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorResponse> resourceNotFoundException(ResourceNotFoundException resourceNotFoundException,
+                                                                   HttpServletRequest request){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(ErrorResponse.builder()
+                        .timestamp(LocalDateTime.now())
+                        .status(HttpStatus.NOT_FOUND.value())
+                        .error(resourceNotFoundException.getMessage())
+                        .path(request.getRequestURI())
+                        .build());
     }
 }

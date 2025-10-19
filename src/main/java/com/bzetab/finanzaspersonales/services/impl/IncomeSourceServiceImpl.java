@@ -3,6 +3,7 @@ package com.bzetab.finanzaspersonales.services.impl;
 import com.bzetab.finanzaspersonales.models.entities.IncomeSource;
 import com.bzetab.finanzaspersonales.repositories.IncomeSourceRepository;
 import com.bzetab.finanzaspersonales.services.IncomeSourceService;
+import com.bzetab.finanzaspersonales.utils.exceptions.custom.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,6 +22,7 @@ public class IncomeSourceServiceImpl implements IncomeSourceService {
 
     @Override
     public IncomeSource findByName(String name) {
-        return incomeSourceRepository.findByName(name);
+        return incomeSourceRepository.findByName(name).orElseThrow(() ->
+                new ResourceNotFoundException("Income Source not found with name: " + name));
     }
 }
